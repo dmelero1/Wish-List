@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import './App.css'
+import WishInput from './WishInput/WishInput'
+import WishList from './WishList/WishList'
 
-const wishes = [
+const initialWishes = [
   {
     id: 0,
     text: "Travel to the moon",
@@ -24,26 +27,18 @@ const wishes = [
 ]
 
 function App() {
+  const [wishes, setWishes] = useState(initialWishes)
+
+  const onNewWishCallbackFunc = (newWish) => {
+    //add a new wish to the wishes list
+    setWishes((currentWishes) => [...currentWishes, newWish]);
+  }
+
   return (
     <div className="app">
       <h1>My WishList</h1>
-      <fieldset className="wish-input">
-        <legend>New Wish</legend>
-        <input type="text" placeholder="My new wish"/>
-      </fieldset>
-      <ul className="wish-list">
-        {wishes.map(wish => (
-          <li key={wish.id} className={`
-            wish-list__item
-            ${wish.completed ? `wish-list__item--done` : ''}`
-          }>
-            <input type="checkbox" checked={wish.completed}/>
-            <label>{wish.text}</label>
-          </li>
-        ))}
-        
-      </ul>
-
+      <WishInput onNewWish = {onNewWishCallbackFunc} />
+      <WishList wishes = {wishes} />
     </div>
   )
 }
