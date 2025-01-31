@@ -1,28 +1,24 @@
-import React from 'react'
+import React from "react";
+import PropTypes from "prop-types";
+import WishListItem from "./WishListItem";
 
-function WishList({ wishes }) {
-    return (
-        <ul className='wish-list'>
-            {wishes.map(wish => (
-                <li
-                    key={wish.id}
-                    className={`
-            wish-list__item 
-            ${wish.completed ? 'wish-list__item--done' : ''}`
-                    }
-                >
-                    <input
-                        id={wish.id} type="checkbox"
-                        checked={wish.completed}
-                    />
-                    <label htmlFor={wish.id}>
-                        {wish.text}
-                    </label>
-                </li>
-            ))}
-        </ul>
-
-    )
+export default function WishList({ wishes, setWishes }) {
+  const onCompletedChange = (checked, i) => {
+    const tempWishes = [...wishes];
+    tempWishes[i].completed = checked;
+    setWishes(tempWishes);
+  };
+  return (
+    <ul className="wish-list">
+      {wishes.map((wish, i) => (
+        <WishListItem
+          key={wish.id}
+          wish={wish}
+          onCompletedChange={(checked) => {
+            onCompletedChange(checked, i);
+          }}
+        />
+      ))}
+    </ul>
+  );
 }
-
-export default WishList

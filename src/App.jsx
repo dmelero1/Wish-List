@@ -1,13 +1,14 @@
-import { useState } from 'react'
-import './App.css'
-import WishInput from './WishInput/WishInput'
-import WishList from './WishList/WishList'
+import { useState } from "react";
+import "./App.css";
+import WishInput from "./WishInput/WishInput";
+import WishList from "./WishList/WishList";
+import GeneralButton from "./Components/GeneralButton";
 
 const initialWishes = [
   {
     id: 0,
     text: "Travel to the moon",
-    completed: true  ,
+    completed: true,
   },
   {
     id: 1,
@@ -24,23 +25,29 @@ const initialWishes = [
     text: "Get a mansion",
     completed: false,
   },
-]
+];
 
 function App() {
-  const [wishes, setWishes] = useState(initialWishes)
+  const [wishes, setWishes] = useState(initialWishes);
 
-  const onNewWishCallbackFunc = (newWish) => {
+  const onNewWishHandler = (newWish) => {
     //add a new wish to the wishes list
     setWishes((currentWishes) => [...currentWishes, newWish]);
-  }
+  };
 
   return (
     <div className="app">
       <h1>My WishList</h1>
-      <WishInput onNewWish = {onNewWishCallbackFunc} />
-      <WishList wishes = {wishes} />
+      <WishInput onNewWish={onNewWishHandler} />
+      <WishList wishes={wishes} setWishes={setWishes} />
+      <GeneralButton
+        actionFunction={() =>
+          setWishes(wishes.filter((wish) => !wish.completed))
+        }
+        displayText={"Archive Wishes"}
+      />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
